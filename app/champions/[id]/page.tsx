@@ -141,23 +141,48 @@ export default function ChampionPage({ params }: { params: { id: string } }) {
                   </h3>
                   <div className="grid grid-cols-3 gap-3">
                     {build.items.map((itemName, index) => {
-                      const item = getItemByName(itemName);
-                      if (!item) return null;
+                      // 支持用斜杠分隔的多个装备
+                      const itemNames = itemName.split('/').map(name => name.trim());
+                      const primaryItem = getItemByName(itemNames[0]);
+                      const secondaryItem = itemNames[1] ? getItemByName(itemNames[1]) : null;
+
+                      // 调试信息
+                      if (itemNames.length > 1) {
+                        console.log('装备:', itemName);
+                        console.log('分割后:', itemNames);
+                        console.log('主装备:', primaryItem);
+                        console.log('备选装备:', secondaryItem);
+                      }
+
+                      if (!primaryItem) return null;
+
                       return (
                         <div
-                          key={`${item.id}-${index}`}
+                          key={`${primaryItem.id}-${index}`}
                           className="flex flex-col items-center p-2 rounded bg-slate-700/50 hover:bg-slate-700 transition-colors"
                         >
                           <div className="relative w-12 h-12 mb-2">
+                            {/* 主装备图标 */}
                             <Image
-                              src={item.image}
-                              alt={item.name}
+                              src={primaryItem.image}
+                              alt={primaryItem.name}
                               fill
                               className="object-contain"
                             />
+                            {/* 备选装备小图标 */}
+                            {secondaryItem && (
+                              <div className="absolute bottom-0 right-0 w-9 h-9 border border-gold/50 rounded-sm bg-slate-800 overflow-hidden">
+                                <Image
+                                  src={secondaryItem.image}
+                                  alt={secondaryItem.name}
+                                  fill
+                                  className="object-contain"
+                                />
+                              </div>
+                            )}
                           </div>
                           <p className="text-xs text-center text-gold-light/80">
-                            {item.name}
+                            {primaryItem.name}
                           </p>
                         </div>
                       );

@@ -227,20 +227,38 @@ export default function Home() {
                               <h4 className="text-sm font-semibold text-gold-light mb-2">{build.name}</h4>
                               <div className="grid grid-cols-6 gap-2">
                                 {build.items.map((itemName, itemIndex) => {
-                                  const item = getItemByName(itemName);
-                                  if (!item) return null;
+                                  // 支持用斜杠分隔的多个装备
+                                  const itemNames = itemName.split('/').map(name => name.trim());
+                                  const primaryItem = getItemByName(itemNames[0]);
+                                  const secondaryItem = itemNames[1] ? getItemByName(itemNames[1]) : null;
+
+                                  if (!primaryItem) return null;
+
                                   return (
                                     <div key={itemIndex} className="relative group">
                                       <div className="aspect-square relative rounded overflow-hidden border border-gold/30">
+                                        {/* 主装备图标 */}
                                         <Image
-                                          src={item.image}
-                                          alt={item.name}
+                                          src={primaryItem.image}
+                                          alt={primaryItem.name}
                                           fill
                                           className="object-cover"
                                         />
+                                        {/* 备选装备小图标 */}
+                                        {secondaryItem && (
+                                          <div className="absolute bottom-0 right-0 w-6 h-6 border border-gold/50 rounded-sm bg-slate-800 overflow-hidden">
+                                            <Image
+                                              src={secondaryItem.image}
+                                              alt={secondaryItem.name}
+                                              fill
+                                              className="object-contain"
+                                            />
+                                          </div>
+                                        )}
                                       </div>
                                       <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-900 text-xs text-gold-light rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
-                                        {item.name}
+                                        {primaryItem.name}
+                                        {secondaryItem && ` / ${secondaryItem.name}`}
                                       </div>
                                     </div>
                                   );

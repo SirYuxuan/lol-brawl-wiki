@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { champions } from '@/lib/data';
+import { champions, getItemByName } from '@/lib/data';
 import { ChampionDetail } from '@/lib/types';
 import championDetailsData from '@/data/champion-details.json';
 
@@ -140,24 +140,28 @@ export default function ChampionPage({ params }: { params: { id: string } }) {
                     {build.name}
                   </h3>
                   <div className="grid grid-cols-3 gap-3">
-                    {build.items.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex flex-col items-center p-2 rounded bg-slate-700/50 hover:bg-slate-700 transition-colors"
-                      >
-                        <div className="relative w-12 h-12 mb-2">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fill
-                            className="object-contain"
-                          />
+                    {build.items.map((itemName, index) => {
+                      const item = getItemByName(itemName);
+                      if (!item) return null;
+                      return (
+                        <div
+                          key={`${item.id}-${index}`}
+                          className="flex flex-col items-center p-2 rounded bg-slate-700/50 hover:bg-slate-700 transition-colors"
+                        >
+                          <div className="relative w-12 h-12 mb-2">
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                          <p className="text-xs text-center text-gold-light/80">
+                            {item.name}
+                          </p>
                         </div>
-                        <p className="text-xs text-center text-gold-light/80">
-                          {item.name}
-                        </p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               ))}

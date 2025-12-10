@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #C89B3C;
+  --color-gold-light: #F0E6D2;
+  --color-gold-dark: #785A28;
+  --color-blue: #0AC8B9;
+  --color-blue-dark: #0397AB;
+  --color-blue-darker: #005A82;
+}
+
+body {
+  background: linear-gradient(to bottom right, rgb(15 23 42), rgb(23 37 84), rgb(15 23 42));
+  color: white;
+  min-height: 100vh;
+}
+
+.gold-gradient {
+  background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold), var(--color-gold-dark));
+}
+
+.champion-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 2px solid rgb(200 155 60 / 0.3);
+  background: rgb(30 41 59 / 0.5);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s;
+}
+
+.champion-card:hover {
+  border-color: var(--color-gold);
+  transform: scale(1.05);
+  box-shadow: 0 20px 25px -5px rgb(200 155 60 / 0.2);
+}
+
+.nav-link {
+  color: var(--color-gold-light);
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--color-gold);
+}
+
+.btn-primary {
+  background: linear-gradient(to right, var(--color-gold-dark), var(--color-gold), var(--color-gold-dark));
+  padding: 0.75rem 2rem;
+  color: rgb(15 23 42);
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgb(200 155 60 / 0.5);
+}
+
+.btn-secondary {
+  padding: 0.75rem 2rem;
+  border: 2px solid var(--color-gold);
+  color: var(--color-gold-light);
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  background: rgb(200 155 60 / 0.1);
+}
